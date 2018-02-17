@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+
+
+  </head>
+  <body>
+    <div id="message">
+      <h2>Welcome</h2>
+      <h1>Firebase Hosting Setup Complete</h1>
+      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
+      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+      <div class="loggedIn">
+        <div>Display Name: <span id="displayName"></span></div>
+        <div>Email: <span id="email"></span></div>
+        <div>Photo: <img width="40" src="" id="photo"/></div>
+        <div>Uid: <span id="uid"></span></div>
+      </div>
+
+      <div>Put an item in your cart! <button onclick="addItem()">Click here</button></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCSq8J0nx8B-Q7g_xw4p3nlnf7w_M4OVDI",
+            authDomain: "ns-test-project.firebaseapp.com",
+            databaseURL: "https://ns-test-project.firebaseio.com",
+            projectId: "ns-test-project",
+            storageBucket: "",
+            messagingSenderId: "441164425469"
+        };
+        var app = firebase.initializeApp(config);
+
+        console.log("app initialized:",app);
+
+        var email = "emoore@nuskin.com";
+        var password = "abc123";
+
+        firebase.auth().signInAnonymously().then(function(data) {
+          console.log("Anonymous login");
+        }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+        });
+
+//        var provider = new firebase.auth.GoogleAuthProvider();
+//
+//        firebase.auth().signInWithPopup(provider).then(function(result) {
+//            // This gives you a Google Access Token. You can use it to access the Google API.
+//            var token = result.credential.accessToken;
+//            // The signed-in user info.
+//            var user = result.user;
+//            console.log("Logged in with google. token:",token+" user:",user);
+//            // ...
+//        }).catch(function(error) {
+//            // Handle Errors here.
+//            var errorCode = error.code;
+//            var errorMessage = error.message;
+//            // The email of the user's account used.
+//            var email = error.email;
+//            // The firebase.auth.AuthCredential type that was used.
+//            var credential = error.credential;
+//            console.log("Error logging in with google:",errorMessage);
+//            // ...
+//        });
+
+//        /**
+//         * CREATE USER
+//         */
+//        firebase.auth().createUserWithEmailAndPassword(email, password).then(function(res) {
+//            console.log("created");
+//        }).catch(function(error) {
+//            // Handle Errors here.
+//            var errorCode = error.code;
+//            var errorMessage = error.message;
+//            console.log("Error creating:",errorMessage);
+//            // ...
+//        });
+//
+//
+//        /**
+//         * LOGIN USER
+//         */
+//        firebase.auth().signInWithEmailAndPassword(email, password).then(function(res) {
+//            console.log("Logged in");
+//
+//        }).catch(function(error) {
+//            // Handle Errors here.
+//            var errorCode = error.code;
+//            var errorMessage = error.message;
+//            console.log("Error logging in:",errorMessage);
+//            // ...
+//        });
+
+        /**
+         * AUTH STATE LISTENER
+         */
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // User is signed in.
+                var displayName = user.displayName;
+                var email = user.email;
+                var emailVerified = user.emailVerified;
+                var photoURL = user.photoURL;
+                var isAnonymous = user.isAnonymous;
+                var uid = user.uid;
+                var providerData = user.providerData;
+
+                var myuser = {
+                    displayName: displayName,
+                    email: email,
+                    emailVerified: emailVerified,
+                    photoUrl: photoURL,
+                    anonymous: isAnonymous,
+                    uid: uid,
+                    providerData: providerData
+                }
+
+                document.getElementById("displayName").innerHTML = displayName;
+                document.getElementById("email").innerHTML = email;
+                document.getElementById("photo").src = photoURL;
+                document.getElementById("uid").innerHTML = uid;
+
+                //document.getElementById("loggedIn").style.display = "block";
+
+                console.log("Logged in. myuser",myuser);
+                // ...
+            } else {
+                // User is signed out.
+                // ...
+                console.log("Signed out");
+            }
+        });
+
+        console.log("End");
+
+        function addItem() {
+            console.log("Adding an item!");
+            
+        }
+    </script>
+  </body>
+</html>
