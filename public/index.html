@@ -3,23 +3,22 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-
-
   </head>
   <body>
     <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+      <h2>Firebase auth example</h2>
+
+      <button id="logout">Logout</button>
+      <button id="anonLogin">Anonymous Login</button>
+      <button id="googleLogin">Google Login</button>
       <div class="loggedIn">
         <div>Display Name: <span id="displayName"></span></div>
+        <div>Anonymous: <span id="anonymous"></span></div>
         <div>Email: <span id="email"></span></div>
         <div>Photo: <img width="40" src="" id="photo"/></div>
         <div>Uid: <span id="uid"></span></div>
       </div>
-
+      <div></div>
       <div>Put an item in your cart! <button onclick="addItem()">Click here</button></div>
     </div>
 
@@ -41,14 +40,54 @@
         var email = "emoore@nuskin.com";
         var password = "abc123";
 
-        firebase.auth().signInAnonymously().then(function(data) {
-          console.log("Anonymous login");
-        }).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
+        var logoutBtn = document.getElementById("logout");
+        var loginAnon = document.getElementById("anonLogin");
+        var loginGoogle = document.getElementById("googleLogin");
+
+        logoutBtn.addEventListener("click", function(e) {
+            console.log("Clicked logout");
+            firebase.auth().signOut();
         });
+
+        loginAnon.addEventListener("click", function(e) {
+            firebase.auth().signInAnonymously().then(function(data) {
+                console.log("Anonymous login");
+            }).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+            });
+        });
+
+        loginGoogle.addEventListener("click", function(e) {
+            var provider = new firebase.auth.GoogleAuthProvider();
+
+           firebase.auth().signInWithPopup(provider).then(function(result) {
+               // This gives you a Google Access Token. You can use it to access the Google API.
+               var token = result.credential.accessToken;
+               // The signed-in user info.
+               var user = result.user;
+               console.log("Logged in with google. token:",token+" user:",user);
+               // ...
+           }).catch(function(error) {
+               // Handle Errors here.
+               var errorCode = error.code;
+               var errorMessage = error.message;
+               // The email of the user's account used.
+               var email = error.email;
+               // The firebase.auth.AuthCredential type that was used.
+               var credential = error.credential;
+               console.log("Error logging in with google:",errorMessage);
+               // ...
+           });
+        });
+
+
+
+
+
+
 
 //        var provider = new firebase.auth.GoogleAuthProvider();
 //
@@ -113,37 +152,57 @@
                 var uid = user.uid;
                 var providerData = user.providerData;
 
-                var myuser = {
+                myuser = {
                     displayName: displayName,
                     email: email,
                     emailVerified: emailVerified,
-                    photoUrl: photoURL,
+                    photoURL: photoURL,
                     anonymous: isAnonymous,
                     uid: uid,
                     providerData: providerData
                 }
 
-                document.getElementById("displayName").innerHTML = displayName;
-                document.getElementById("email").innerHTML = email;
-                document.getElementById("photo").src = photoURL;
-                document.getElementById("uid").innerHTML = uid;
+
 
                 //document.getElementById("loggedIn").style.display = "block";
-
+                updateUserData();
                 console.log("Logged in. myuser",myuser);
+
                 // ...
             } else {
                 // User is signed out.
                 // ...
                 console.log("Signed out");
+                myuser = {};
+                updateUserData();
             }
         });
+
+        function updateUserData() {
+            document.getElementById("displayName").innerHTML = myuser.displayName;
+            document.getElementById("anonymous").innerHTML = myuser.isAnonymous;
+            document.getElementById("email").innerHTML = myuser.email;
+            document.getElementById("photo").src = myuser.photoURL;
+            document.getElementById("uid").innerHTML = myuser.uid;
+        }
 
         console.log("End");
 
         function addItem() {
             console.log("Adding an item!");
-            
+            // good, cant read
+            // firebase.database().ref('/data').once('value').then(function(snapshot) {
+            //     console.log("snapshot:",snapshot.val());
+            // });
+
+            firebase.database().ref('users/' + myuser.uid).set({
+                cart: ['01003610']
+            });
+
+            console.log("user:",myuser);
+            firebase.database().ref('/users/'+myuser.uid).once('value').then(function(snapshot) {
+                 console.log("snapshot:",snapshot.val());
+            });
         }
     </script>
   </body>
