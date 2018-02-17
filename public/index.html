@@ -18,7 +18,7 @@
         <div>Photo: <img width="40" src="" id="photo"/></div>
         <div>Uid: <span id="uid"></span></div>
       </div>
-      <div></div>
+      <div>User Data <span id="userData"></span></div>
       <div>Put an item in your cart! <button onclick="addItem()">Click here</button></div>
     </div>
 
@@ -166,6 +166,7 @@
 
                 //document.getElementById("loggedIn").style.display = "block";
                 updateUserData();
+                loadUserData();
                 console.log("Logged in. myuser",myuser);
 
                 // ...
@@ -186,23 +187,36 @@
             document.getElementById("uid").innerHTML = myuser.uid;
         }
 
+        function loadUserData() {
+            firebase.database().ref('/users/'+myuser.uid).once('value').then(function(snapshot) {
+                userData = snapshot.val();
+                var userDataEl = document.getElementById("userData");
+                userDataEl.innerHTML = JSON.stringify(userData);
+                console.log("Loaded user data:",userData);
+            });
+        }
+
         console.log("End");
 
         function addItem() {
             console.log("Adding an item!");
-            // good, cant read
-            // firebase.database().ref('/data').once('value').then(function(snapshot) {
-            //     console.log("snapshot:",snapshot.val());
-            // });
+            if (!userData) {
+                userData = {};
+                userData.cart = {};
+                userData.cart["01003610"] = 1;
+            } else {
+                var count = userData.cart["01003610"];
+                if (!count) {
+                    count = 1;
+                } else {
+                    count ++;
+                }
+                userData.cart["01003610"] = count;
+            }
 
-            firebase.database().ref('users/' + myuser.uid).set({
-                cart: ['01003610']
-            });
-
-            console.log("user:",myuser);
-            firebase.database().ref('/users/'+myuser.uid).once('value').then(function(snapshot) {
-                 console.log("snapshot:",snapshot.val());
-            });
+            console.log("userData:",userData);
+            firebase.database().ref('users/' + myuser.uid).set(userData);
+            loadUserData();
         }
     </script>
   </body>
