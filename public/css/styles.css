@@ -1,0 +1,27 @@
+html * {
+    font-size: 1em !important;
+    font-family: "Verlag-A", sans-serif
+}
+
+.loginButton {
+    background: #4285F4;
+    margin: 10px;
+    border:1px solid blue;
+    height: 35px;
+    color: white;
+    font-weight: bold;
+}
+
+#loginButtons {
+    display: flex;
+}
+
+.loggedIn {
+    display:flex;
+    flex-flow: column nowrap;
+    font-family: "Arial", sans-serif;
+    margin: 0.5rem;
+    line-height: 1.5;
+    border-bottom: 1px solid #d0d0d0;
+    flex: 1 1 auto;
+}
