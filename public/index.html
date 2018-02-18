@@ -10,10 +10,10 @@
     <div id="message">
       <h2>Firebase auth example</h2>
       <div id="loginButtons">
-        <button id="logout" class="loginButton">Logout</button>
-        <button id="anonLogin" class="loginButton">Anonymous Login</button>
-        <button class="loginButton" id="fbLogin">Login with Facebook</button>
-        <button class="loginButton" id="googleLogin">Login with Google</button>
+        <button id="logout">Logout</button>
+        <!--<button id="anonLogin" class="loginButton">Anonymous Login</button>-->
+        <button id="fbLogin">Login with Facebook</button>
+        <button id="googleLogin">Login with Google</button>
       </div>
 
       <div class="loggedIn">
@@ -24,7 +24,7 @@
         <div>Uid: <span id="uid"></span></div>
       </div>
       <div>User Data <span id="userData"></span></div>
-      <div>Put an item in your cart! <button onclick="addItem()" class="loginButton">Click here</button></div>
+      <div>Put an item in your cart! <button onclick="addItem()">Click here</button></div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
     <script src="app.js"></script>

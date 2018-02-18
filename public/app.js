@@ -13,24 +13,20 @@ var config = {
 var app = firebase.initializeApp(config);
 console.log("app initialized:",app);
 
-var logoutBtn = document.getElementById("logout");
-var loginAnon = document.getElementById("anonLogin");
-var loginGoogle = document.getElementById("googleLogin");
-var loginFb = document.getElementById("fbLogin");
-
-logoutBtn.addEventListener("click", function(e) {
+document.getElementById("logout").addEventListener("click", function(e) {
     console.log("Clicked logout");
     firebase.auth().signOut();
 });
 
-loginAnon.addEventListener("click", function(e) {
-    firebase.auth().signInAnonymously().then(function(data) {
-        console.log("Anonymous login");
-    }).catch(function(error) {
-    });
-});
+//var loginAnon = document.getElementById("anonLogin");
+// loginAnon.addEventListener("click", function(e) {
+//     firebase.auth().signInAnonymously().then(function(data) {
+//         console.log("Anonymous login");
+//     }).catch(function(error) {
+//     });
+// });
 
-loginGoogle.addEventListener("click", function(e) {
+document.getElementById("googleLogin").addEventListener("click", function(e) {
     var provider = new firebase.auth.GoogleAuthProvider();
 
     firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -47,7 +43,7 @@ loginGoogle.addEventListener("click", function(e) {
 // Note: I've found that if you login with google 1st, and then subsequently login with fb that has the same
 // email, you will get an error: "Error logging in with facebook: An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address."
 // I think in this case you will need to link the fb account to a google account.
-loginFb.addEventListener("click", function(e) {
+document.getElementById("fbLogin").addEventListener("click", function(e) {
     var provider = new firebase.auth.FacebookAuthProvider();
 
     firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -65,21 +61,31 @@ loginFb.addEventListener("click", function(e) {
  * AUTH STATE LISTENER
  */
 firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-        updateUserData(user);
-        loadUserData(user);
-    } else {
-        console.log("Signed out");
-        updateUserData(user);
+    if (!user) {
+        firebase.auth().signInAnonymously().then(function(data) {
+            console.log("Anonymous login");
+        }).catch(function(error) {
+        });
+
     }
+    updateUserData(user);
 });
 
 function updateUserData(user) {
+    if (!user) {
+        return;
+    }
     document.getElementById("displayName").innerHTML = user.displayName;
+    if (user.isAnonymous) {
+        document.getElementById("logout").classList.add("hide");
+    } else {
+        document.getElementById("logout").classList.remove("hide");
+    }
     document.getElementById("anonymous").innerHTML = user.isAnonymous?true:false;
     document.getElementById("email").innerHTML = user.email;
     document.getElementById("photo").src = user.photoURL;
     document.getElementById("uid").innerHTML = user.uid;
+    loadUserData(user);
 }
 
 function loadUserData(user) {

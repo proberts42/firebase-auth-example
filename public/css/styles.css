@@ -3,7 +3,7 @@ html * {
     font-family: "Verlag-A", sans-serif
 }
 
-.loginButton {
+button {
     background: #4285F4;
     margin: 10px;
     border:1px solid blue;
@@ -24,4 +24,8 @@ html * {
     line-height: 1.5;
     border-bottom: 1px solid #d0d0d0;
     flex: 1 1 auto;
+}
+
+.hide {
+    display: none;
 }
