@@ -77,19 +77,23 @@ function updateUserData(user) {
     }
     document.getElementById("displayName").innerHTML = user.displayName;
     if (user.isAnonymous) {
+        document.getElementById("photo").classList.add("hide");
+        document.getElementById("email").classList.add("hide");
         document.getElementById("logout").classList.add("hide");
     } else {
+        document.getElementById("photo").classList.remove("hide");
+        document.getElementById("email").classList.remove("hide");
         document.getElementById("logout").classList.remove("hide");
     }
     document.getElementById("anonymous").innerHTML = user.isAnonymous?true:false;
     document.getElementById("email").innerHTML = user.email;
     document.getElementById("photo").src = user.photoURL;
     document.getElementById("uid").innerHTML = user.uid;
-    loadUserData(user);
+    bindUserData(user);
 }
 
-function loadUserData(user) {
-    firebase.database().ref('/users/'+user.uid).once('value').then(function(snapshot) {
+function bindUserData(user) {
+    firebase.database().ref('/users/'+user.uid).on('value', function(snapshot) {
         userData = snapshot.val();
         var userDataEl = document.getElementById("userData");
         userDataEl.innerHTML = JSON.stringify(userData);
@@ -107,15 +111,33 @@ function addItem() {
         userData.cart["01003610"] = 1;
     } else {
         var count = userData.cart["01003610"];
+        count = (!count)?1:++count;
+        /*
         if (!count) {
             count = 1;
         } else {
             count ++;
         }
+        */
         userData.cart["01003610"] = count;
     }
 
     console.log("userData:",userData);
     firebase.database().ref('users/' + user.uid).set(userData);
-    loadUserData(user);
+}
+
+function checkout() {
+    var user = firebase.auth().currentUser;
+    userData.checkout = true;
+    firebase.database().ref('users/' + user.uid).set(userData);
+    document.getElementById("placeOrder").classList.remove("hide");
+}
+
+function placeOrder() {
+    var user = firebase.auth().currentUser;
+    userData.checkout = false;
+    userData.cart["01003610"] = 0;
+    userData.total = 0;
+    firebase.database().ref('users/' + user.uid).set(userData);
+    document.getElementById("placeOrder").classList.add("hide");
 }

@@ -16,14 +16,15 @@
       </div>
 
       <div class="loggedIn">
-        <div>Display Name: <span id="displayName"></span></div>
-        <div>Anonymous: <span id="anonymous"></span></div>
-        <div>Email: <span id="email"></span></div>
-        <div>Photo: <img width="40" src="" id="photo"/></div>
+        <div><img width="40" src="" id="photo"/></div>
+        <div><span id="displayName"></span></div>
+        <div id="email"></div>
         <div>Uid: <span id="uid"></span></div>
+        <div>Anonymous: <span id="anonymous"></span></div>
       </div>
       <div>User Data <span id="userData"></span></div>
-      <div>Put an item in your cart! <button onclick="addItem()">Click here</button></div>
+      <div>Buy Lifepak ($20) <button onclick="addItem()">Add To Cart</button></div>
+      <div>Checkout! <button onclick="checkout()">Checkout</button><button id="placeOrder" class="hide" onclick="placeOrder()">Place Order</button></div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
     <script src="app.js"></script>

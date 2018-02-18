@@ -18,12 +18,15 @@ button {
 
 .loggedIn {
     display:flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-around;
     font-family: "Arial", sans-serif;
     margin: 0.5rem;
     line-height: 1.5;
-    border-bottom: 1px solid #d0d0d0;
+    border: 1px solid #d0d0d0;
     flex: 1 1 auto;
+    height: 60px;
 }
 
 .hide {
