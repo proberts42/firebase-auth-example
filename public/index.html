@@ -25,7 +25,8 @@
           $.ajax({
               url: 'https://hsn4cij241.execute-api.us-west-2.amazonaws.com/prod/accountdata',
               crossDomain: true,
-              dataType: 'json'
+              dataType: 'json',
+              contentType: 'application/json',
               })
               .done((data) => {
               run(JSON.parse(data));
@@ -113,3 +114,7 @@
     <script src="app.js"></script>
   </body>
 </html>
+
+$(function(){
+
+});
