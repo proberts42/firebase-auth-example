@@ -29,11 +29,11 @@
               contentType: 'application/json',
               })
               .done((data) => {
-              run(JSON.parse(data));
+              run(JSON.parse(data.body));
           });
 
           function populateTable(mockResponse) {
-            $.each(mockResponse, (i, element) => {
+            $.each(mockResponse.Items, (i, element) => {
 
 
                 let tableRow = $(
@@ -43,7 +43,7 @@
                     + "<input id='name' type='text' name='name' value='" + element.name + "' readonly>"
                     + '</td><td>'
                     + "<input id='type' type='text' name='type' value='" + element.type + "' readonly>"
-                    + "</td><td id='edit_" + element.id + "' ><img src=''./img/icon-edit.svg' alt='Edit' onclick='editMember()'>"
+                    + "</td><td id='edit_" + element.id + "' ><img src='./img/icon-edit.svg' alt='Edit' onclick='editMember()'>"
                     + '</td></tr>');
                 $('#members').append(tableRow);
             })
