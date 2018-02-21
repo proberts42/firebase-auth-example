@@ -9,6 +9,13 @@
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
     <script>
+      // Event functions below are global for jQuery access:
+      function editMember() {
+          // TODO: implement this method
+          alert('under construction');
+      }
+
+
       $(function() {
           let mockResponse = [ { id: '2', name: 'Chad', type: 'distributor' },
               { id: '1', name: 'Eric', type: 'distributor' },
@@ -21,11 +28,6 @@
                 let tableRow = $('<tr><td>' + element.id + '</td><td>' + element.name + '</td><td>' + element.type + '</td><td><img src="./img/icon-edit.svg" alt="Edit" onclick="editMember()"></td></tr>');
                 $('#members').append(tableRow);
             })
-          }
-
-          function editMember() {
-              // TODO: implement this method
-              alert('under construction');
           }
 
           function run() {
