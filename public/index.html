@@ -19,8 +19,6 @@
           function populateTable(mockResponse) {
             $.each(mockResponse, (i, element) => {
                 let tableRow = $('<tr><td>' + element.id + '</td><td>' + element.name + '</td><td>' + element.type + '</td><td><img src="./img/icon-edit.svg" alt="Edit" onclick="editMember()"></td></tr>');
-                console.log("INSERT:");
-                console.log(element);
                 $('#members').append(tableRow);
             })
           }
