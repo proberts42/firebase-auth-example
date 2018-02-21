@@ -141,3 +141,11 @@ function placeOrder() {
     firebase.database().ref('users/' + user.uid).set(userData);
     document.getElementById("placeOrder").classList.add("hide");
 }
+
+var users = [ 
+    { id: '2', name: 'Chad', type: 'admin' },
+    { id: '1', name: 'Eric', type: 'distributor' },
+    { id: '5', name: 'Mark', type: 'admin' },
+    { id: '4', name: 'Paul', type: 'customer' },
+    { id: '3', name: 'Jason', type: 'invader!' }
+];

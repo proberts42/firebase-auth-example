@@ -25,6 +25,46 @@
       <div>User Data <span id="userData"></span></div>
       <div>Buy Lifepak ($20) <button onclick="addItem()">Add To Cart</button></div>
       <div>Checkout! <button onclick="checkout()">Checkout</button><button id="placeOrder" class="hide" onclick="placeOrder()">Place Order</button></div>
+
+      <div class="title-bar">
+        <h1>User Viewer</h1>
+      </div>
+
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Edit</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Eric</td>
+          <td>distributor</td>
+          <td><img src="./img/icon-edit.svg" alt="Edit"></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Chad</td>
+          <td>admin</td>
+          <td><img src="./img/icon-edit.svg" alt="Edit"></td>
+        </tr>
+      </table>
+
+      <form action="">
+        <fieldset>
+          <label for="userId">User Id</label>
+          <input type="text" name="userId" id="userId">
+
+          <label for="userName">User Name</label>
+          <input type="text" name="userName" id="userName">
+
+          <label for="userType">User Type</label>
+          <input type="text" name="userType" id="userType">
+
+          <button class="clear">Save User</button>
+        </fieldset>
+      </form>
     </div>
     <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
     <script src="app.js"></script>
