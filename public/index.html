@@ -11,8 +11,6 @@
     <script>
       // Event functions below are global for jQuery access:
       function editMember() {
-          // TODO: implement this method
-          alert('under construction');
       }
 
 
@@ -23,19 +21,38 @@
               { id: '4', name: 'Paul', type: 'customer' },
               { id: '3', name: 'Jason', type: 'customer' } ];
 
+          $.ajax({
+              url: 'https://hsn4cij241.execute-api.us-west-2.amazonaws.com/prod/accountdata'
+          }).done((data) => {
+              context: data
+              run(data);
+          });
+
           function populateTable(mockResponse) {
             $.each(mockResponse, (i, element) => {
-                let tableRow = $('<tr><td>' + element.id + '</td><td>' + element.name + '</td><td>' + element.type + '</td><td><img src="./img/icon-edit.svg" alt="Edit" onclick="editMember()"></td></tr>');
+
+
+                let tableRow = $(
+                    "<tr id='row_" + element.id + "'><td>"
+                    + "<input id='id' type='text' name='id' value='" + element.id + "' readonly>"
+                    + '</td><td>'
+                    + "<input id='name' type='text' name='name' value='" + element.name + "' readonly>"
+                    + '</td><td>'
+                    + "<input id='type' type='text' name='type' value='" + element.type + "' readonly>"
+                    + "</td><td id='edit_" + element.id + "' ><img src=''./img/icon-edit.svg' alt='Edit' onclick='editMember()'>"
+                    + '</td></tr>');
                 $('#members').append(tableRow);
             })
           }
 
-          function run() {
-              populateTable(mockResponse);
+          /**
+           * Load the web app
+           *
+           * @param data
+           */
+          function run(data) {
+              populateTable(data);
           }
-
-          // Kick of the web app:
-          run();
       });
     </script>
   </head>
@@ -64,6 +81,7 @@
         <h1>User Viewer</h1>
       </div>
 
+      <!-- Table should be populated with Dynamo data onload -->
       <table id="members">
         <tr>
           <th>ID</th>
@@ -71,18 +89,6 @@
           <th>Type</th>
           <th>Edit</th>
         </tr>
-        <!--<tr>-->
-          <!--<td>1</td>-->
-          <!--<td>Eric</td>-->
-          <!--<td>distributor</td>-->
-          <!--<td><img src="./img/icon-edit.svg" alt="Edit"></td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-          <!--<td>2</td>-->
-          <!--<td>Chad</td>-->
-          <!--<td>admin</td>-->
-          <!--<td><img src="./img/icon-edit.svg" alt="Edit"></td>-->
-        <!--</tr>-->
       </table>
 
       <form action="">
