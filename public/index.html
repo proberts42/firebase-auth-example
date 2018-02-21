@@ -4,6 +4,40 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/styles.css"/>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script>
+      $(function() {
+          let mockResponse = [ { id: '2', name: 'Chad', type: 'distributor' },
+              { id: '1', name: 'Eric', type: 'distributor' },
+              { id: '5', name: 'Mark', type: 'admin' },
+              { id: '4', name: 'Paul', type: 'customer' },
+              { id: '3', name: 'Jason', type: 'customer' } ];
+
+          function populateTable(mockResponse) {
+            $.each(mockResponse, (i, element) => {
+                let tableRow = $('<tr><td>' + element.id + '</td><td>' + element.name + '</td><td>' + element.type + '</td><td><img src="./img/icon-edit.svg" alt="Edit" onclick="editMember()"></td></tr>');
+                console.log("INSERT:");
+                console.log(element);
+                $('#members').append(tableRow);
+            })
+          }
+
+          function editMember() {
+              // TODO: implement this method
+              alert('under construction');
+          }
+
+          function run() {
+              populateTable(mockResponse);
+          }
+
+          // Kick of the web app:
+          run();
+      });
+    </script>
   </head>
   <body>
     <div id="message">
@@ -30,25 +64,25 @@
         <h1>User Viewer</h1>
       </div>
 
-      <table>
+      <table id="members">
         <tr>
           <th>ID</th>
           <th>Name</th>
           <th>Type</th>
           <th>Edit</th>
         </tr>
-        <tr>
-          <td>1</td>
-          <td>Eric</td>
-          <td>distributor</td>
-          <td><img src="./img/icon-edit.svg" alt="Edit"></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Chad</td>
-          <td>admin</td>
-          <td><img src="./img/icon-edit.svg" alt="Edit"></td>
-        </tr>
+        <!--<tr>-->
+          <!--<td>1</td>-->
+          <!--<td>Eric</td>-->
+          <!--<td>distributor</td>-->
+          <!--<td><img src="./img/icon-edit.svg" alt="Edit"></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+          <!--<td>2</td>-->
+          <!--<td>Chad</td>-->
+          <!--<td>admin</td>-->
+          <!--<td><img src="./img/icon-edit.svg" alt="Edit"></td>-->
+        <!--</tr>-->
       </table>
 
       <form action="">
