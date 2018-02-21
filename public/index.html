@@ -11,6 +11,7 @@
     <script>
       // Event functions below are global for jQuery access:
       function editMember() {
+          alert("Under construction");
       }
 
 
@@ -22,10 +23,12 @@
               { id: '3', name: 'Jason', type: 'customer' } ];
 
           $.ajax({
-              url: 'https://hsn4cij241.execute-api.us-west-2.amazonaws.com/prod/accountdata'
-          }).done((data) => {
-              context: data
-              run(data);
+              url: 'https://hsn4cij241.execute-api.us-west-2.amazonaws.com/prod/accountdata',
+              crossDomain: true,
+              dataType: 'json'
+              })
+              .done((data) => {
+              run(JSON.parse(data));
           });
 
           function populateTable(mockResponse) {
